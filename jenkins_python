@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    tools{
+      python 'python3'
+    }
+    
+    stages{
+      stage('Checkout'){
+        steps {
+            git branch: 'main', url: 'https://github.com/1ms24mc112-vivek/Test.git'
+             }
+        }
+    stage('Run'){
+        steps {
+            echo "Running Python Program..."
+            sh 'python3 python.py'
+          }
+        }
+    }
+}

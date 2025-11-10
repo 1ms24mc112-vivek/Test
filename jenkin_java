@@ -1,1 +1,27 @@
+pipeline {
+    agent any
 
+    tools{
+      jdk 'jdk21'
+    }
+    
+    stages{
+      stage('Checkout'){
+        steps {
+            git branch: 'main', url: 'https://github.com/1ms24mc112-vivek/Test.git'
+             }
+        }
+    stage('Compile'){
+        steps {
+            echo "Compiling Java Program..."
+            sh 'javac Hello.java'
+          }
+        }
+    stage('Run'){
+        steps {
+            echo "Running Java Program..."
+            sh 'java Hello'
+          }
+        }
+    }
+}

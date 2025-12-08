@@ -15,7 +15,7 @@ pipeline {
         stage('Python') {
             steps {
                 // Run python script on Windows
-                badt 'python python.py'
+                bat 'python python.py'
             }
         }
 

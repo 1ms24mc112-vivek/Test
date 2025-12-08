@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    trigger {
+        CRON('* * * * *')
+    }
     stages{
       stage('Checkout'){
         steps {

@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+
+    stages {
+        stage("Test Email") {
+            steps {
+                emailext(
+                    to: "1ms24mc112@gmail.com",
+                    subject: "Jenkins Email Test",
+                    body: "This is a test from pipeline."
+                )
+            }
+        }
+    }
+}

@@ -1,1 +1,21 @@
-pipeline
+pipeline {
+    agent any
+
+    stages{
+      stage('Checkout'){
+        steps {
+            git branch: 'main', url: 'https://github.com/1ms24mc112-vivek/Test.git'
+             }
+        }
+    stage('Python'){
+        steps {
+            sh python3 python.py"            
+            }
+        }
+    stage('Test'){
+        steps {
+            echo "Testing PYTHON FILE........."        
+             }
+        }
+    }
+}

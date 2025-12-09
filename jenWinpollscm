@@ -1,24 +1,10 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('* * * * *')
-    }
     stages {
-        stage('Checkout') {
+        stage('Hello') {
             steps {
-                git branch: 'main', url: 'https://github.com/1ms24mc112-vivek/Test.git'
-            }
-        }
-        stage('Python') {
-            steps {
-                // Run python script on Windows
-                bat 'python python.py'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo "Testing PYTHON FILE.......//..."
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/1ms24mc112-vivek/Test.git']])
             }
         }
     }

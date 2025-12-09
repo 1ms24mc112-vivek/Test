@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    environment {
+        TELEGRAM_TOKEN = credentials('telegram-token')
+        TELEGRAM_CHAT_ID = "2048229204"
+    }
+
+    stages {
+        stage('Start') {
+            steps {
+                script {
+                    sendTelegram("STARTED: Job *${env.JOB_NAME}* (#${env.BUILD_NUMBER})")
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo "Running build steps..."
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/1ms24mc112-vivek/Test.git']])            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                sendTelegram("SUCCESS: Job *${env.JOB_NAME}* (#${env.BUILD_NUMBER}) completed successfully!")
+            }
+        }
+        failure {
+            script {
+                sendTelegram("FAILED: Job *${env.JOB_NAME}* (#${env.BUILD_NUMBER}) failed")
+            }
+        }
+        always {
+            script {
+                sendTelegram("DONE: Job *${env.JOB_NAME}* (#${env.BUILD_NUMBER}) finished execution.")
+            }
+        }
+    }
+}
+
+def sendTelegram(String message) {
+    bat """
+        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" ^
+        -d chat_id=${TELEGRAM_CHAT_ID} ^
+        -d text="${message}" ^
+        -d parse_mode=Markdown
+    """
+}
